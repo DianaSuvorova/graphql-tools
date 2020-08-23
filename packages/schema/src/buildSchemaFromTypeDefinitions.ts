@@ -1,4 +1,4 @@
-import { extendSchema, buildASTSchema, GraphQLSchema, DocumentNode, ASTNode } from 'graphql';
+import { extendSchema, buildASTSchema, GraphQLSchema, DocumentNode, ASTNode, BuildSchemaOptions } from 'graphql';
 
 import { ITypeDefinitions, GraphQLParseOptions, parseGraphQLSDL } from '@graphql-tools/utils';
 
@@ -12,12 +12,16 @@ export function buildSchemaFromTypeDefinitions(
   const document = buildDocumentFromTypeDefinitions(typeDefinitions, parseOptions);
   const typesAst = filterExtensionDefinitions(document);
 
-  const backcompatOptions = { commentDescriptions: true };
-  let schema: GraphQLSchema = buildASTSchema(typesAst, backcompatOptions);
+  const options: BuildSchemaOptions = {
+    commentDescriptions: true,
+    experimentalDefer: true,
+    experimentalStream: true,
+  };
+  let schema: GraphQLSchema = buildASTSchema(typesAst, options);
 
   const extensionsAst = extractExtensionDefinitions(document);
   if (extensionsAst.definitions.length > 0) {
-    schema = extendSchema(schema, extensionsAst, backcompatOptions);
+    schema = extendSchema(schema, extensionsAst, options);
   }
 
   return schema;

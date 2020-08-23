@@ -83,6 +83,6 @@
     "./website"
   ],
   "resolutions": {
-    "graphql": "15.3.0"
+    "graphql": "npm:graphql-experimental"
   }
 }

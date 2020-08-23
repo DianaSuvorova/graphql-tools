@@ -67,4 +67,12 @@ export interface IExecutableSchemaDefinition<TContext = any> {
    * Additional options for removing unused types from the schema
    */
   pruningOptions?: PruneSchemaOptions;
+  /**
+   * Set to `true` to enable support within queries for the experimental `defer` directive
+   */
+  experimentalDefer?: boolean;
+  /**
+   * Set to `true` to enable support within queries for the experimental `stream` directive
+   */
+  experimentalStream?: boolean;
 }

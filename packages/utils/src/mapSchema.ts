@@ -88,6 +88,8 @@ export function mapSchema(schema: GraphQLSchema, schemaMapper: SchemaMapper = {}
     subscription: newSubscriptionTypeName != null ? (typeMap[newSubscriptionTypeName] as GraphQLObjectType) : undefined,
     types: Object.keys(typeMap).map(typeName => typeMap[typeName]),
     directives,
+    experimentalDefer: true,
+    experimentalStream: true,
   });
 }
 

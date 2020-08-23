@@ -33,6 +33,16 @@ export function defaultMergedResolver(
 
   const data = parent[responseKey];
   const unpathedErrors = getUnpathedErrors(parent);
+
+  // To Do: extract this section to separate function.
+  // If proxied result with defer or stream, result may be initially undefined
+  // so must call out to a to-be-created Receiver abstraction
+  // (as opposed to Dispatcher within graphql-js) that will notify of data arrival
+
+  if (data === undefined) {
+    return 'test';
+  }
+
   const subschema = getSubschema(parent, responseKey);
 
   return resolveExternalValue(data, unpathedErrors, subschema, context, info);

@@ -80,5 +80,7 @@ export function addTypes(
     subscription: subscriptionTypeName != null ? (typeMap[subscriptionTypeName] as GraphQLObjectType) : undefined,
     types: Object.keys(typeMap).map(typeName => typeMap[typeName]),
     directives,
+    experimentalDefer: true,
+    experimentalStream: true,
   });
 }

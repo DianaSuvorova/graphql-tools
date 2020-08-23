@@ -315,6 +315,8 @@ export function addStitchingInfo(stitchedSchema: GraphQLSchema, stitchingInfo: S
       ...stitchedSchema.extensions,
       stitchingInfo,
     },
+    experimentalDefer: true,
+    experimentalStream: true,
   });
 }
 

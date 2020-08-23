@@ -6782,10 +6782,10 @@ graphql-upload@^8.0.2:
     http-errors "^1.7.3"
     object-path "^0.11.4"
 
-graphql@15.3.0, graphql@^14.5.3:
-  version "15.3.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.3.0.tgz#3ad2b0caab0d110e3be4a5a9b2aa281e362b5278"
-  integrity sha512-GTCJtzJmkFLWRfFJuoo9RWWa/FfamUHgiFosxi/X1Ani4AVWbeyBenZTNX6dM+7WSbbFfTo/25eh0LLkwHMw2w==
+graphql@15.3.0, graphql@^14.5.3, "graphql@npm:graphql-experimental":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/graphql-experimental/-/graphql-experimental-4.0.1.tgz#65a2bb1573d20685be62493287c31273419b99ce"
+  integrity sha512-Z9GHafFdxDMq7sGq+iUdfPCMeTphc/LOOjt2EB9RNDB0j1ShsIg8Bp7PV42oKw3C1ccLvguQaw1DeuldsQuuxw==
 
 gray-matter@^4.0.2:
   version "4.0.2"
