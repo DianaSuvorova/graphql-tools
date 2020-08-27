@@ -1,6 +1,6 @@
 import { defaultFieldResolver, GraphQLResolveInfo } from 'graphql';
 
-import { getResponseKeyFromInfo } from '@graphql-tools/utils';
+import { getResponseKeyFromInfo, ExecutionResult } from '@graphql-tools/utils';
 
 import { resolveExternalValue } from './resolveExternalValue';
 import { getSubschema } from './Subschema';
@@ -18,7 +18,7 @@ export function defaultMergedResolver(
   args: Record<string, any>,
   context: Record<string, any>,
   info: GraphQLResolveInfo
-) {
+): any {
   if (!parent) {
     return null;
   }
@@ -34,16 +34,26 @@ export function defaultMergedResolver(
   const data = parent[responseKey];
   const unpathedErrors = getUnpathedErrors(parent);
 
-  // To Do: extract this section to separate function.
-  // If proxied result with defer or stream, result may be initially undefined
-  // so must call out to a to-be-created Receiver abstraction
-  // (as opposed to Dispatcher within graphql-js) that will notify of data arrival
+  // To Do:
+  // add support for transforms
+  // call out to Receiver abstraction that will publish all patches with channel based on path
+  // edit code below to subscribe to appropriate channel based on path
+  // so as to handle multiple defer patches and discriminate between them without need for labels
 
-  if (data === undefined) {
-    return 'test';
+  if (data === undefined && 'ASYNC_ITERABLE' in parent) {
+    const asyncIterable = parent['ASYNC_ITERABLE'];
+    return asyncIterableToResult(asyncIterable).then(patch => {
+      return defaultMergedResolver(patch.data, args, context, info);
+    });
   }
 
   const subschema = getSubschema(parent, responseKey);
 
   return resolveExternalValue(data, unpathedErrors, subschema, context, info);
+}
+
+async function asyncIterableToResult(asyncIterable: AsyncIterable<ExecutionResult>): Promise<any> {
+  const asyncIterator = asyncIterable[Symbol.asyncIterator]();
+  const payload = await asyncIterator.next();
+  return payload.value;
 }
